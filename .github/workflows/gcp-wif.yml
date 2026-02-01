@@ -1,0 +1,26 @@
+name: GCP WIF Auth Test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  auth:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to GCP using WIF
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: "projects/46040340862/locations/global/workloadIdentityPools/wif-pool/providers/github"
+          service_account: "app-sa@project-4052f6c4-bcda-46b0-9e6.iam.gserviceaccount.com"
+
+      - name: Verify access
+        run: |
+          gcloud auth list
+          gcloud projects list
