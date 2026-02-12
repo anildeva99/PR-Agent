@@ -49,7 +49,7 @@ jobs:
 
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
 
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
 
         run: python main.py
 
@@ -74,7 +74,7 @@ jobs:
 
         env:
 
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
 
       - name: Run PR Agent
 
@@ -90,6 +90,6 @@ jobs:
 
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
 
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
 
         run: python main.py
