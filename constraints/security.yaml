@@ -19,4 +19,3 @@ rules:
       file_glob: "**/*"
       pattern: "(AKIA|SECRET_KEY|PASSWORD=)"
     fix: "Move secrets to Secret Manager or GitHub Secrets"
-

@@ -1,3 +1,4 @@
+
 import os
 from utils.github_client import get_pr_files_and_diff
 from utils.slack_client import send_slack_message
@@ -13,12 +14,14 @@ def main():
 
     pr_number = int(pr_number)
 
-    print(f"📦 Repository : {repo_name}")
+    print(f"�� Repository : {repo_name}")
     print(f"🔢 PR Number  : {pr_number}")
 
     # Get PR files & diff
     files, diff = get_pr_files_and_diff(repo_name, pr_number)
 
+    #files_count = len(files)
+    files = list(files)
     files_count = len(files)
     diff_length = len(diff)
 
@@ -49,3 +52,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
