@@ -1,7 +1,7 @@
 
 import os
 from utils.github_client import get_pr_files_and_diff
-from utils.slack_client import send_slack_message
+from utils.team_client import send_slack_message
 
 def main():
     print("🚀 Starting PR Agent")
