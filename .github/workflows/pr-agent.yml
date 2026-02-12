@@ -58,11 +58,11 @@ jobs:
 
 
 
-      - name: Test Slack Webhook
+      - name: Test Teams Webhook
 
         run: |
 
-          echo "Testing Slack Webhook..."
+          echo "Testing Teams Webhook..."
 
           #echo "Webhook length: ${#SLACK_WEBHOOK_URL}"
 
@@ -70,7 +70,7 @@ jobs:
 
             --data '{"text":"Test message from GitHub Actions"}' \
 
-            "$SLACK_WEBHOOK_URL"
+            "$TEAMS_WEBHOOK_URL"
 
         env:
 
