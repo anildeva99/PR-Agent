@@ -1,7 +1,7 @@
 
 import os
 from utils.github_client import get_pr_files_and_diff
-from utils.team_client import send_slack_message
+from utils.teams_client import send_teams_message
 
 def main():
     print("🚀 Starting PR Agent")
@@ -29,7 +29,7 @@ def main():
     print(f"📏 Diff length  : {diff_length}")
 
     # Slack notification
-    slack_message = (
+    teams_message = (
         f"🔍 PR Review Completed\n"
         f"Repository: {repo_name}\n"
         f"PR Number: #{pr_number}\n"
@@ -37,18 +37,18 @@ def main():
         f"Diff Length: {diff_length}"
     )
 
-    send_slack_message(slack_message)
+    send_teams_message(teams_message)
 
     # Optional AI Review (safe)
     if os.getenv("GOOGLE_API_KEY"):
         try:
             from utils.ai_reviewer import run_ai_review
             run_ai_review(diff)
-            send_slack_message("🤖 AI Review completed successfully.")
+            send_teams_message("🤖 AI Review completed successfully.")
         except Exception as e:
-            send_slack_message(f"❌ AI Review failed: {e}")
+            send_teams_message(f"❌ AI Review failed: {e}")
     else:
-        send_slack_message("⚠️ GOOGLE_API_KEY not set. Skipping AI review.")
+        send_teams_message("⚠️ GOOGLE_API_KEY not set. Skipping AI review.")
 
 if __name__ == "__main__":
     main()
