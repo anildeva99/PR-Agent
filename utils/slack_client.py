@@ -2,8 +2,7 @@ import os
 import json
 import requests
  # test ne chane
-# test
-# test 123
+
 # test 555
 def send_slack_message(message: str):
 
