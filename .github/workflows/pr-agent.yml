@@ -1,0 +1,55 @@
+name: PR Agent
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  pr-agent:
+    runs-on: ubuntu-latest
+
+    env:
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+      PR_AGENT_REPO: ${{ github.repository }}
+      PR_AGENT_GITHUB_TOKEN: ${{ secrets.PR_AGENT_GITHUB_TOKEN }}
+      GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+      TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install requests
+
+      - name: Debug — verify Teams secret exists (masked)
+        run: |
+          if [ -z "$TEAMS_WEBHOOK_URL" ]; then
+            echo "❌ TEAMS_WEBHOOK_URL is missing"; exit 1
+          else
+            echo "✅ TEAMS_WEBHOOK_URL detected"
+          fi
+
+      - name: Run PR Agent
+        run: python main.py
+
+      - name: Direct Teams Test (MessageCard)
+        run: |
+          echo "Testing Teams Webhook..."
+          payload=$(jq -n \
+            --arg text "Test message from GitHub Actions via Teams 🚀" \
+            '{ "@type":"MessageCard",
+               "@context":"https://schema.org/extensions",
+               summary:"Notification",
+               text:$text }')
+          curl -X POST -H "Content-Type: application/json" \
+               -d "$payload" \
+               "$TEAMS_WEBHOOK_URL"
